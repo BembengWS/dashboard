@@ -1,33 +1,12 @@
-const url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQfhO80zgPpOpWITxvgDjnL-vVdkfY6mJYC0ijFt_qJfkmGc1MjKOqKxQs8yLS4mp4x9ZLEDwgQRO1Z/pub?output=csv";
+const dummy = [
+  { Region: "JAKARTA", "Status Request": "ON AIR", "Proceeding Order": "ORDER 2026" },
+  { Region: "JABAR", "Status Request": "NOT YET", "Proceeding Order": "CARRY OVER" },
+  { Region: "JAKARTA", "Status Request": "ON AIR", "Proceeding Order": "ORDER 2026" }
+];
 
-fetch(url)
-  .then(res => res.text())
-  .then(csv => {
-    const data = parseCSV(csv);
-
-    if (!data || data.length === 0) {
-      document.getElementById("k1").textContent = "No Data";
-      return;
-    }
-
-    buildKPI(data);
-    buildDonut(data);
-    buildRegionTable(data);
-  });
-
-function parseCSV(text){
-  const rows = text.trim().split("\n");
-  const headers = rows[0].split(",");
-
-  return rows.slice(1).map(row => {
-    const values = row.split(",");
-    let obj = {};
-    headers.forEach((h, i) => {
-      obj[h.trim()] = values[i];
-    });
-    return obj;
-  });
-}
+buildKPI(dummy);
+buildDonut(dummy);
+buildRegionTable(dummy);
 
 function buildKPI(data){
   const total = data.length;
@@ -49,8 +28,7 @@ function buildDonut(data){
     data: {
       labels: ['Order 2026', 'Carry Over'],
       datasets: [{
-        data: [order2026, carryOver],
-        backgroundColor: ['#9e9e9e', '#d32f2f']
+        data: [order2026, carryOver]
       }]
     }
   });
