@@ -1,11 +1,12 @@
 body{
   background:#f2f2f2;
-  font-family:Arial;
+  font-family:Arial, sans-serif;
 }
 
 .container{
   width:1200px;
   margin:auto;
+  padding-top:20px;
 }
 
 .row{
@@ -34,9 +35,9 @@ h2{
 
 .kpi{
   display:flex;
-  justify-content:space-between;
+  justify-content:space-around;
+  font-size:22px;
   padding:15px 0;
-  font-size:20px;
 }
 
 table{
@@ -47,4 +48,5 @@ table{
 td, th{
   padding:6px;
   border-bottom:1px solid #ddd;
+  text-align:left;
 }
