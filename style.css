@@ -1,0 +1,50 @@
+body{
+  background:#f2f2f2;
+  font-family:Arial;
+}
+
+.container{
+  width:1200px;
+  margin:auto;
+}
+
+.row{
+  display:flex;
+  gap:20px;
+}
+
+.card{
+  background:white;
+  padding:15px;
+  border-radius:6px;
+  flex:1;
+  box-shadow:0 2px 5px rgba(0,0,0,0.1);
+}
+
+.full{
+  margin-top:20px;
+}
+
+h2{
+  background:black;
+  color:white;
+  padding:8px;
+  font-size:16px;
+}
+
+.kpi{
+  display:flex;
+  justify-content:space-between;
+  padding:15px 0;
+  font-size:20px;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+}
+
+td, th{
+  padding:6px;
+  border-bottom:1px solid #ddd;
+}
