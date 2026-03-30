@@ -3,16 +3,31 @@ const csvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQfhO80zgPpOpWIT
 fetch(csvUrl)
   .then(response => response.text())
   .then(csv => {
-    console.log("CSV loaded");
-
-    const rows = csv.split("\n");
-    console.log("Total rows:", rows.length);
+    const rows = csv.trim().split("\n").map(r => r.split(","));
 
     document.getElementById("status").innerText =
       "Data loaded. Total rows: " + rows.length;
-  })
-  .catch(error => {
-    console.error("Error loading CSV:", error);
-    document.getElementById("status").innerText =
-      "Failed to load data";
+
+    const tableHead = document.querySelector("#data-table thead");
+    const tableBody = document.querySelector("#data-table tbody");
+
+    // header
+    const headerRow = document.createElement("tr");
+    rows[0].forEach(col => {
+      const th = document.createElement("th");
+      th.innerText = col;
+      headerRow.appendChild(th);
+    });
+    tableHead.appendChild(headerRow);
+
+    // data rows (batasi 50 dulu biar ga berat)
+    rows.slice(1, 51).forEach(row => {
+      const tr = document.createElement("tr");
+      row.forEach(cell => {
+        const td = document.createElement("td");
+        td.innerText = cell;
+        tr.appendChild(td);
+      });
+      tableBody.appendChild(tr);
+    });
   });
