@@ -3,7 +3,27 @@ const csvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQfhO80zgPpOpWIT
 fetch(csvUrl)
   .then(response => response.text())
   .then(csv => {
-    const rows = csv.trim().split("\n").map(r => r.split(","));
+    console.log("CSV loaded");
+
+    // parser CSV yang lebih aman
+    const rows = csv.trim().split("\n").map(row => {
+      const result = [];
+      let current = '';
+      let insideQuotes = false;
+
+      for (let char of row) {
+        if (char === '"') {
+          insideQuotes = !insideQuotes;
+        } else if (char === ',' && !insideQuotes) {
+          result.push(current);
+          current = '';
+        } else {
+          current += char;
+        }
+      }
+      result.push(current);
+      return result;
+    });
 
     document.getElementById("status").innerText =
       "Data loaded. Total rows: " + rows.length;
@@ -20,7 +40,7 @@ fetch(csvUrl)
     });
     tableHead.appendChild(headerRow);
 
-    // data rows (batasi 50 dulu biar ga berat)
+    // data rows (limit 50)
     rows.slice(1, 51).forEach(row => {
       const tr = document.createElement("tr");
       row.forEach(cell => {
@@ -30,4 +50,9 @@ fetch(csvUrl)
       });
       tableBody.appendChild(tr);
     });
+  })
+  .catch(error => {
+    console.error("Error:", error);
+    document.getElementById("status").innerText =
+      "Failed to render table";
   });
